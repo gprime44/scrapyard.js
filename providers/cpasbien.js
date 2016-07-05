@@ -8,12 +8,13 @@ const CPBAPI = require('cpasbien-api')
 const api = new CPBAPI()
 
 exports.movie = function(movieInfo, callback) {
-	console.log(movieInfo)
+	console.log(movieInfo);
 	
 	api.Search(movieInfo.title).then((values) => {
-		console.log(values)
+		console.log(values);
 		var magnets = [];
 		for (var i = 0; i < values.items.length; i++) {
+			console.log(values.items[i]);
 			var magnetInfo = {
 					title:  values.items[i].title,
 			        source: 'Cpasbien',
@@ -25,7 +26,7 @@ exports.movie = function(movieInfo, callback) {
 			magnets.push(magnetInfo);
 		}
 		callback(null, magnets);
-	})
+	});
 }
 
 
