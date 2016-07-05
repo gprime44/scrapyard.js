@@ -23,13 +23,13 @@ exports.movie = function(movieInfo, callback) {
 			console.log(size);
 			var split = size.split(" ");
 			console.log(split);
-			var value = split[0].split["."];
+			var value = split[0].split(".");
 			console.log(value);
-			if (split[1] == "Ko") {
+			if (split[1].startsWith("Ko")) {
 				magnetInfo.size = value[0] * 1024 + value[1];
-			} else if (split[1] == "Mo") {
+			} else if (split[1].startsWith("Mo")) {
 				magnetInfo.size = value[0] * 1024 * 1024 + value[1] * 1024;
-			} else if (split[1] == "Go") {
+			} else if (split[1].startsWith("Go")) {
 				magnetInfo.size = value[0] * 1024 * 1024 *1024 + value[1] * 1024 * 1024;
 			}
 			
