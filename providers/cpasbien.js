@@ -10,12 +10,22 @@ const api = new CPBAPI()
 exports.movie = function(movieInfo, callback) {
 	console.log(movieInfo)
 	
-	console.log(api.Latest())
-	  
-//	api.Search(movieInfo.title).then(console.log.bind(console))
-
-	var magnets = [];
-	callback(null, magnets);
+	api.Search(movieInfo.title).then((values) => {
+		console.log(values)
+		var magnets = [];
+		for (var i = 0; i < values.length; i++) {
+			var magnetInfo = {
+					title:  values[i].title,
+			        source: 'Cpasbien',
+			        size:   values[i].size,
+			        seeds:  values[i].seeds,
+			        peers:  values[i].leechs
+			        link:   values[i].torrent
+			};
+			magnets.push(magnetInfo);
+		}
+		callback(null, magnets);
+	})
 }
 
 
