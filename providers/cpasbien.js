@@ -8,7 +8,7 @@ const CPBAPI = require('cpasbien-api')
 const api = new CPBAPI()
 
 exports.movie = function(movieInfo, callback) {
-	console.log.bind(movieInfo)
+	console.log(movieInfo)
 	
 	api.Search('harry poter', {scope: 'movies', language: 'FR'})
 	  .then(console.log.bind(console))
