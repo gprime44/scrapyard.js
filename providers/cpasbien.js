@@ -19,7 +19,7 @@ exports.movie = function(movieInfo, callback) {
 			        source: 'Cpasbien',
 			        size:   values[i].size,
 			        seeds:  values[i].seeds,
-			        peers:  values[i].leechs
+			        peers:  values[i].leechs,
 			        link:   values[i].torrent
 			};
 			magnets.push(magnetInfo);
