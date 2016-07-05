@@ -13,14 +13,14 @@ exports.movie = function(movieInfo, callback) {
 	api.Search(movieInfo.title).then((values) => {
 		console.log(values)
 		var magnets = [];
-		for (var i = 0; i < values.length; i++) {
+		for (var i = 0; i < values.items.length; i++) {
 			var magnetInfo = {
-					title:  values[i].title,
+					title:  values.items[i].title,
 			        source: 'Cpasbien',
-			        size:   values[i].size,
-			        seeds:  values[i].seeds,
-			        peers:  values[i].leechs,
-			        link:   values[i].torrent
+			        size:   values.items[i].size,
+			        seeds:  values.items[i].seeds,
+			        peers:  values.items[i].leechs,
+			        link:   values.items[i].torrent
 			};
 			magnets.push(magnetInfo);
 		}
