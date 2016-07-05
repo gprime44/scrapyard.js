@@ -11,7 +11,6 @@ exports.movie = function(movieInfo, callback) {
 	api.Search(movieInfo.title).then((values) => {
 		var magnets = [];
 		for (var i = 0; i < values.items.length; i++) {
-			console.log(values.items[i]);
 			var magnetInfo = {
 					title:  values.items[i].title,
 			        source: 'Cpasbien',
@@ -21,8 +20,11 @@ exports.movie = function(movieInfo, callback) {
 			};
 			
 			var size = values.items[i].size;
+			console.log(size);
 			var split = size.split(" ");
+			console.log(split);
 			var value = split[0].split["."];
+			console.log(value);
 			if (split[1] == "Ko") {
 				magnetInfo.size = value[0] * 1024 + value[1];
 			} else if (split[1] == "Mo") {
