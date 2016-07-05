@@ -10,6 +10,9 @@ const api = new CPBAPI()
 exports.movie = function(movieInfo, callback) {
 	console.log(movieInfo)
 	
+	api.Latest()
+	  .then(console.log.bind(console))
+	  
 	api.Search('harry poter', {scope: 'movies', language: 'FR'})
 	  .then(console.log.bind(console))
 
