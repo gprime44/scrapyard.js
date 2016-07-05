@@ -8,10 +8,7 @@ const CPBAPI = require('cpasbien-api')
 const api = new CPBAPI()
 
 exports.movie = function(movieInfo, callback) {
-	console.log(movieInfo);
-	
 	api.Search(movieInfo.title).then((values) => {
-		console.log(values);
 		var magnets = [];
 		for (var i = 0; i < values.items.length; i++) {
 			console.log(values.items[i]);
