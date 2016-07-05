@@ -8,14 +8,11 @@ const CPBAPI = require('cpasbien-api')
 const api = new CPBAPI()
 
 exports.movie = function(movieInfo, callback) {
-	api.Latest()
+	console.log.bind(movieInfo)
+	
+	api.Search('harry poter', {scope: 'movies', language: 'FR'})
 	  .then(console.log.bind(console))
 
-	api.Search('harry poter', {language: 'EN'})
-	  .then(console.log.bind(console))
-
-	api.Search('fringe', {scope: 'tvshow'})
-	  .then(console.log.bind(console))
 	var magnets = [];
 	callback(null, magnets);
 }
@@ -23,6 +20,9 @@ exports.movie = function(movieInfo, callback) {
 
 
 exports.episode = function(showInfo, seasonIndex, episodeIndex, callback) {
+	console.log.bind(showInfo)
+	console.log.bind(seasonIndex)
+	console.log.bind(episodeIndex)
 	api.Latest()
 	  .then(console.log.bind(console))
 
