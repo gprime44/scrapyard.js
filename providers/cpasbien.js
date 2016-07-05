@@ -15,11 +15,22 @@ exports.movie = function(movieInfo, callback) {
 			var magnetInfo = {
 					title:  values.items[i].title,
 			        source: 'Cpasbien',
-			        size:   values.items[i].size,
 			        seeds:  values.items[i].seeds,
 			        peers:  values.items[i].leechs,
 			        link:   values.items[i].torrent
 			};
+			
+			var size = values.items[i].size;
+			var split = size.split(" ");
+			var value = split[0].split["."];
+			if (split[1] == "Ko") {
+				magnetInfo.size = value[0] * 1024 + value[1];
+			} else if (split[1] == "Mo") {
+				magnetInfo.size = value[0] * 1024 * 1024 + value[1] * 1024;
+			} else if (split[1] == "Go") {
+				magnetInfo.size = value[0] * 1024 * 1024 *1024 + value[1] * 1024 * 1024;
+			}
+			
 			magnets.push(magnetInfo);
 		}
 		callback(null, magnets);
