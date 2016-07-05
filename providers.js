@@ -12,10 +12,10 @@ exports.movie = function(movieInfo, callback) {
     [
       function(callback) {
         kickass.movie(movieInfo, callback);
-      }
+      },
       function(callback) {
-          cpasbien.movie(movieInfo, callback);
-        }
+        cpasbien.movie(movieInfo, callback);
+      }
     ],
     function(err, results) {
       if (err) {
@@ -46,7 +46,7 @@ exports.episode = function(showInfo, seasonIndex, episodeIndex, callback) {
       },
       function(callback) {
         kickass.episode(showInfo, seasonIndex, episodeIndex, callback);
-      }
+      },
       function(callback) {
         cpasbien.episode(showInfo, seasonIndex, episodeIndex, callback);
       }
