@@ -1,6 +1,7 @@
 var async   = require('async');
 var magnet  = require('magnet-uri');
 var util    = require('util');
+var parseTorrent = require('parse-torrent');
 
 var network = require('../network');
 
@@ -10,21 +11,19 @@ const api = new CPBAPI()
 exports.movie = function(movieInfo, callback) {
 	api.Search(movieInfo.title).then((values) => {
 		var magnets = [];
+		var nb = 0;
 		for (var i = 0; i < values.items.length; i++) {
+
 			var magnetInfo = {
-					title:  values.items[i].title,
-			        source: 'Cpasbien',
-			        seeds:  values.items[i].seeds,
-			        peers:  values.items[i].leechs,
-			        link:   values.items[i].torrent
+				title:  values.items[i].title,
+				source: 'Cpasbien',
+				seeds:  values.items[i].seeds,
+				peers:  values.items[i].leechs
 			};
-			
+
 			var size = values.items[i].size;
-			console.log(size);
 			var split = size.split(" ");
-			console.log(split);
 			var value = split[0].split(".");
-			console.log(value);
 			if (split[1].startsWith("Ko")) {
 				magnetInfo.size = value[0] * 1024 + value[1];
 			} else if (split[1].startsWith("Mo")) {
@@ -32,27 +31,40 @@ exports.movie = function(movieInfo, callback) {
 			} else if (split[1].startsWith("Go")) {
 				magnetInfo.size = value[0] * 1024 * 1024 *1024 + value[1] * 1024 * 1024;
 			}
-			
-			magnets.push(magnetInfo);
+
+			parseTorrent.remote(values.items[i].torrent, function (err, parsedTorrent) {
+				nb = nb + 1;
+				if (err)  {
+					console.log(err);
+				} else {
+					console.log("Torrent OK : " + parsedTorrent.infoHash);
+					magnetInfo.link = magnet.encode({
+						dn: magnetInfo.title,
+						xt: [ 'urn:btih:' + parsedTorrent.infoHash ],
+						tr: [
+							'udp://tracker.internetwarriors.net:1337',
+							'udp://tracker.coppersurfer.tk:6969',
+							'udp://open.demonii.com:1337',
+							'udp://tracker.leechers-paradise.org:6969',
+							'udp://tracker.openbittorrent.com:80'
+						]
+					});
+	
+					magnets.push(magnetInfo);
+				}
+				
+				if (nb == values.items.length) {
+					console.log("Send callback");
+					callback(null, magnets);
+				}		
+			});
 		}
-		callback(null, magnets);
 	});
 }
 
 
 
 exports.episode = function(showInfo, seasonIndex, episodeIndex, callback) {
-	console.log.bind(showInfo)
-	console.log.bind(seasonIndex)
-	console.log.bind(episodeIndex)
-	api.Latest()
-	  .then(console.log.bind(console))
-
-	api.Search('harry poter', {language: 'EN'})
-	  .then(console.log.bind(console))
-
-	api.Search('fringe', {scope: 'tvshow'})
-	  .then(console.log.bind(console))
 	 var magnets = [];
 	 callback(null, magnets);
 }
