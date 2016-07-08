@@ -2,24 +2,20 @@ var async   = require('async');
 var magnet  = require('magnet-uri');
 var util    = require('util');
 var parseTorrent = require('parse-torrent');
-
+const request = require('request')
+const cheerio = require('cheerio')
 var network = require('../network');
 
-//----------------------------------------------------------------------------
+var CPASBIEN_URL = 'http://www.cpasbien.cm';
 
-const CPBAPI = require('cpasbien-api')
-const api = new CPBAPI()
-
-//----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 
 function parse(item, callback) {
-	console.log("Parse item : ", item);
 	parseTorrent.remote(item.torrent, function (err, parsedTorrent) {
 		if (err) {
 			console.log("Error : ", err);
 			callback(err, null);
 		}
-		console.log("Parsed torrent : ", parsedTorrent);
 
 		var magnetInfo = {
 				title:  item.title,
@@ -49,8 +45,8 @@ function parse(item, callback) {
 	});
 }
 
-function search(query, options, callback) {
-	api.Search(query, options).then((values) => {
+function search(query, type, lang, callback) {
+	SearchCpasbien(query, type, lang).then((values) => {
 
 		console.log('Query : %s', query);
 
@@ -59,22 +55,20 @@ function search(query, options, callback) {
 		}
 		async.map(values.items, parse, 
 				function(err, magnets) {
-			console.log('Results : ');
-			console.log(magnets);
 			callback(err, magnets);
 		}
 		);
 	});
 }
 
-//----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 
 exports.movie = function(movieInfo, callback) {
 
 	async.parallel(
 			[
 			 function(callback) {
-				 search(movieInfo.title, {language: 'FR'}, callback);
+				 search(movieInfo.title, 'MOVIES', null, callback);
 			 }
 			 ],
 			 function(err, results) {
@@ -95,7 +89,7 @@ exports.movie = function(movieInfo, callback) {
 	);
 }
 
-//----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 
 exports.episode = function(showInfo, seasonIndex, episodeIndex, lang, callback) {
 	async.parallel(
@@ -110,7 +104,7 @@ exports.episode = function(showInfo, seasonIndex, episodeIndex, lang, callback) 
 				 if (episodeIndex < 10) {
 					 episode = '0' + episode;
 				 }
-				 search(util.format('%s-s%s-e%s', showInfo.title, season, episode), {scope: 'tvshow', language: lang}, callback);
+				 search(util.format('%s-s%s-e%s', showInfo.title, season, episode), 'TVSHOWS', null, callback);
 			 }
 			 ],
 			 function(err, results) {
@@ -127,7 +121,7 @@ exports.episode = function(showInfo, seasonIndex, episodeIndex, lang, callback) 
 	);
 }
 
-//----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 
 function mergeMagnetLists(list1, list2) {
 	var toAdd = [];
@@ -150,4 +144,65 @@ function mergeMagnetLists(list1, list2) {
 	}
 
 	return list1.concat(toAdd);
+}
+
+// -----------------------------------------------------------------------------
+function _crawl (URI) {
+    return new Promise((resolve, reject) => {
+      request(URI, (err, res, html) => {
+        if (err) reject(err)
+
+        const $ = cheerio.load(html)
+        const $items = $('#gauche').children('.ligne1, .ligne0')
+
+        const items = []
+        $items.each((sum, item) => {
+          items.push(this._createItemObject($(item)))
+        })
+
+        const pagination = this._createPagination($('#pagination'))
+        resolve({items, pagination})
+      })
+    })
+  }
+
+// Type : MOVIES, TVSHOWS
+// Lang : FR, VO, VOSTFR
+function SearchCpasbien (query, type, lang, options) {
+	URL = CPASBIEN_URL + '/recherche/';
+	
+	switch (type) {
+	case 'MOVIES':
+		switch (lang) {
+		case 'FR':
+			URL = URL + 'films-french';
+			break;
+		case 'VO':
+			URL = URL + 'films';
+			break;
+		case 'VOSTFR':
+			URL = URL + 'films-vostfr';
+			break;
+		}
+		break;
+	case 'TVSHOWS':
+		switch (lang) {
+		case 'FR':
+			URL = URL + 'series-francaise';
+			break;
+		case 'VO':
+			URL = URL + 'series';
+			break;
+		case 'VOSTFR':
+			URL = URL + 'series-vostfr';
+			break;
+		}
+		break;
+	}
+	
+	URL = URL + URL + '/' + encodeURI(query.toLowerCase()) + '.html';
+		
+	console.log(URL)
+	
+	return _crawl(URL);
 }
