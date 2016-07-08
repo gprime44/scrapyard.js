@@ -5,7 +5,10 @@ var parseTorrent = require('parse-torrent');
 
 var network = require('../network');
 
-const api = require('./api/index.js')
+//----------------------------------------------------------------------------
+
+const CPBAPI = require('cpasbien-api')
+const api = new CPBAPI()
 
 //----------------------------------------------------------------------------
 
@@ -45,8 +48,9 @@ function parse(item, callback) {
 }
 
 function search(query, options, callback) {
-	console.log('Query : %s', query);
 	api.Search(query, options).then((values) => {
+
+		console.log('Query : %s', query);
 
 		if (values === undefined || values.items.length == 0) {
 			callback(null, []);
