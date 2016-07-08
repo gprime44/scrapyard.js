@@ -13,9 +13,9 @@ var CPASBIEN_URL = 'http://www.cpasbien.cm';
 // ----------------------------------------------------------------------------
 
 function parse(item, callback) {
+	console.log(item.torrent);
 	parseTorrent.remote(item.torrent, function (err, parsedTorrent) {
 		if (err) {
-			console.log("Error : ", err);
 			callback(err, null);
 			
 		} else {
