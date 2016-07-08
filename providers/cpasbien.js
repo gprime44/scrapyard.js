@@ -2,9 +2,11 @@ var async   = require('async');
 var magnet  = require('magnet-uri');
 var util    = require('util');
 var parseTorrent = require('parse-torrent');
+var network = require('../network');
+
 const request = require('request')
 const cheerio = require('cheerio')
-var network = require('../network');
+const Extractor = require('./extractor.js')
 
 var CPASBIEN_URL = 'http://www.cpasbien.cm';
 
