@@ -224,7 +224,7 @@ function SearchCpasbien (query, type, lang, options) {
 		break;
 	}
 	
-	URL = URL + URL + '/' + encodeURI(query.toLowerCase()) + '.html';
+	URL = URL + '/' + encodeURI(query.toLowerCase()) + '.html';
 		
 	console.log(URL)
 	
