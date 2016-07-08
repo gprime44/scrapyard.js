@@ -5,7 +5,7 @@ var parseTorrent = require('parse-torrent');
 
 var network = require('../network');
 
-const api = require('api/index.js')
+const api = require('./api/index.js')
 
 //----------------------------------------------------------------------------
 
