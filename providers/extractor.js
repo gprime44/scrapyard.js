@@ -8,8 +8,7 @@ const urlify = require('urlify').create({
 
 class Extractor {
   getTorrentURL (item) {
-    const torrentName = urlify(this.getTitle(item).toLowerCase())
-    return `${Settings.DOMAIN}/telechargement/${torrentName}.torrent`
+    return CPASBIEN_URL + '/telechargement/' + urlify(this.getTitle(item).toLowerCase()) + '.torrent';
   }
   getTitle (item) {
     return item.find('.titre').text()
