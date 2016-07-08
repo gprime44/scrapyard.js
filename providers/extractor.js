@@ -1,4 +1,5 @@
-const Settings = require('./settings.js')
+var CPASBIEN_URL = 'http://www.cpasbien.cm';
+
 const urlify = require('urlify').create({
   spaces: '-',
   nonPrintable: '-',
@@ -23,8 +24,7 @@ class Extractor {
     return item.find('.poid').text()
   }
   getCover (item) {
-    const coverName = urlify(this.getTitle(item).toLowerCase())
-    return `${Settings.DOMAIN}/_pictures/${coverName}.jpg`
+    return CPASBIEN_URL + '/_pictures/'+ urlify(this.getTitle(item).toLowerCase()) + '.jpg'
   }
 }
 
