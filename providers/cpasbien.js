@@ -183,6 +183,9 @@ function SearchCpasbien (query, type, lang, options) {
 		case 'VOSTFR':
 			URL = URL + 'films-vostfr';
 			break;
+		default:
+			URL = URL + 'films';
+			break;
 		}
 		break;
 	case 'TVSHOWS':
@@ -195,6 +198,8 @@ function SearchCpasbien (query, type, lang, options) {
 			break;
 		case 'VOSTFR':
 			URL = URL + 'series-vostfr';
+			break;
+		default:
 			break;
 		}
 		break;
