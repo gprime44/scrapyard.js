@@ -147,6 +147,7 @@ function mergeMagnetLists(list1, list2) {
 }
 
 // -----------------------------------------------------------------------------
+
 function _crawl (URI) {
     return new Promise((resolve, reject) => {
       request(URI, (err, res, html) => {
@@ -164,6 +165,23 @@ function _crawl (URI) {
         resolve({items, pagination})
       })
     })
+}
+
+function _createItemObject (item) {
+    return {
+      title: Extractor.getTitle(item),
+      cover: Extractor.getCover(item),
+      seeds: Extractor.getSeeds(item),
+      leechs: Extractor.getLeechs(item),
+      size: Extractor.getSize(item),
+      torrent: Extractor.getTorrentURL(item)
+    }
+  }
+
+function _createPagination (pagination) {
+    return {
+      next: pagination.find('a:last-child').attr('href')
+    }
   }
 
 // Type : MOVIES, TVSHOWS
