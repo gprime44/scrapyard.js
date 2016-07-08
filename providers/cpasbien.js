@@ -158,10 +158,10 @@ function _crawl (URI) {
 
         const items = []
         $items.each((sum, item) => {
-          items.push(this._createItemObject($(item)))
+          items.push(_createItemObject($(item)))
         })
 
-        const pagination = this._createPagination($('#pagination'))
+        const pagination = _createPagination($('#pagination'))
         resolve({items, pagination})
       })
     })
