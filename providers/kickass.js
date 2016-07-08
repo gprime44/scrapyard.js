@@ -46,7 +46,7 @@ function search(category, query, callback) {
 
 // ----------------------------------------------------------------------------
 
-exports.movie = function(movieInfo, callback) {
+exports.movie = function(movieInfo, lang, callback) {
   search('movies', 'imdb:' + ((movieInfo.imdb_id != null) ? movieInfo.imdb_id.substring(2) : ''), function(err, movieMagnets) {
     if (err) {
       callback(err, null);
@@ -58,7 +58,7 @@ exports.movie = function(movieInfo, callback) {
 
 // ----------------------------------------------------------------------------
 
-exports.episode = function(showInfo, seasonIndex, episodeIndex, callback) {
+exports.episode = function(showInfo, seasonIndex, episodeIndex, lang, callback) {
   async.parallel(
     [
       // function(callback) {
