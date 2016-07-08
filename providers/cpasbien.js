@@ -13,7 +13,6 @@ var CPASBIEN_URL = 'http://www.cpasbien.cm';
 // ----------------------------------------------------------------------------
 
 function parse(item, callback) {
-	console.log(item.torrent);
 	parseTorrent.remote(item.torrent, function (err, parsedTorrent) {
 		if (err) {
 			callback(err, null);
@@ -188,7 +187,8 @@ function _createPagination (pagination) {
 // Type : MOVIES, TVSHOWS
 // Lang : FR, VO, VOSTFR
 function SearchCpasbien (query, type, lang, options) {
-	URL = CPASBIEN_URL + '/recherche/';
+	console.log('Query : %s - %s - %s', query, type, lang);
+	var URL = CPASBIEN_URL + '/recherche/';
 	
 	switch (type) {
 	case 'MOVIES':
