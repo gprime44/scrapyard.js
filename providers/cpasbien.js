@@ -13,11 +13,13 @@ const api = new CPBAPI()
 //----------------------------------------------------------------------------
 
 function parse(item, callback) {
+	console.log("Parse item : ", item);
 	parseTorrent.remote(item.torrent, function (err, parsedTorrent) {
 		if (err) {
 			console.log("Error : ", err);
 			callback(err, null);
 		}
+		console.log("Parsed torrent : ", parsedTorrent);
 
 		var magnetInfo = {
 				title:  item.title,
@@ -57,6 +59,8 @@ function search(query, options, callback) {
 		}
 		async.map(values.items, parse, 
 				function(err, magnets) {
+			console.log('Results : ');
+			console.log(magnets);
 			callback(err, magnets);
 		}
 		);
@@ -70,10 +74,12 @@ exports.movie = function(movieInfo, callback) {
 	async.parallel(
 			[
 			 function(callback) {
-				 search(movieInfo.title, callback);
+				 search(movieInfo.title, {language: 'FR'}, callback);
 			 }
 			 ],
 			 function(err, results) {
+				console.log('Results after : ');
+				console.log(results);
 				if (err) {
 					callback(err, null);
 				} else {
@@ -91,7 +97,7 @@ exports.movie = function(movieInfo, callback) {
 
 //----------------------------------------------------------------------------
 
-exports.episode = function(showInfo, seasonIndex, episodeIndex, callback) {
+exports.episode = function(showInfo, seasonIndex, episodeIndex, lang, callback) {
 	async.parallel(
 			[
 			 function(callback) {
@@ -104,7 +110,7 @@ exports.episode = function(showInfo, seasonIndex, episodeIndex, callback) {
 				 if (episodeIndex < 10) {
 					 episode = '0' + episode;
 				 }
-				 search(util.format('%s-s%s-e%s', showInfo.title, season, episode), {scope: 'tvshow', language: 'EN'}, callback);
+				 search(util.format('%s-s%s-e%s', showInfo.title, season, episode), {scope: 'tvshow', language: lang}, callback);
 			 }
 			 ],
 			 function(err, results) {
