@@ -74,8 +74,6 @@ exports.movie = function(movieInfo, callback) {
 			 }
 			 ],
 			 function(err, results) {
-				console.log('Results after : ');
-				console.log(results);
 				if (err) {
 					callback(err, null);
 				} else {
