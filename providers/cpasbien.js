@@ -17,33 +17,34 @@ function parse(item, callback) {
 		if (err) {
 			console.log("Error : ", err);
 			callback(err, null);
+			
+		} else {
+			var magnetInfo = {
+					title:  item.title,
+					source: 'Cpasbien',
+					link:   item.torrent,
+					seeds:  item.seeds,
+					peers:  item.leechs
+			};
+	
+			var size = item.size;
+			var split = size.split(" ");
+			var value = split[0].split(".");
+			if (split[1].startsWith("Ko")) {
+				magnetInfo.size = value[0] * 1024 + value[1];
+			} else if (split[1].startsWith("Mo")) {
+				magnetInfo.size = value[0] * 1024 * 1024 + value[1] * 1024;
+			} else if (split[1].startsWith("Go")) {
+				magnetInfo.size = value[0] * 1024 * 1024 *1024 + value[1] * 1024 * 1024;
+			}
+	
+			magnetInfo.link = magnet.encode({
+				dn: magnetInfo.title,
+				xt: [ 'urn:btih:' + parsedTorrent.infoHash ],
+				tr: parsedTorrent.announce
+			});
+			callback(null, magnetInfo);
 		}
-
-		var magnetInfo = {
-				title:  item.title,
-				source: 'Cpasbien',
-				link:   item.torrent,
-				seeds:  item.seeds,
-				peers:  item.leechs
-		};
-
-		var size = item.size;
-		var split = size.split(" ");
-		var value = split[0].split(".");
-		if (split[1].startsWith("Ko")) {
-			magnetInfo.size = value[0] * 1024 + value[1];
-		} else if (split[1].startsWith("Mo")) {
-			magnetInfo.size = value[0] * 1024 * 1024 + value[1] * 1024;
-		} else if (split[1].startsWith("Go")) {
-			magnetInfo.size = value[0] * 1024 * 1024 *1024 + value[1] * 1024 * 1024;
-		}
-
-		magnetInfo.link = magnet.encode({
-			dn: magnetInfo.title,
-			xt: [ 'urn:btih:' + parsedTorrent.infoHash ],
-			tr: parsedTorrent.announce
-		});
-		callback(null, magnetInfo);
 	});
 }
 
