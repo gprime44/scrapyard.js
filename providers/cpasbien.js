@@ -63,7 +63,7 @@ function search(query, type, lang, callback) {
 // ----------------------------------------------------------------------------
 
 exports.movie = function(movieInfo, lang, callback) {
-	console.log('Search movie on CpasBien : %s %s', movieInfo.title, lang);
+	console.log('Search movie on Cpasbien : %s %s', movieInfo.title, lang);
 	async.parallel(
 			[
 			 function(callback) {
@@ -89,7 +89,7 @@ exports.movie = function(movieInfo, lang, callback) {
 // ----------------------------------------------------------------------------
 
 exports.episode = function(showInfo, seasonIndex, episodeIndex, lang, callback) {
-	console.log('Search serie on CpasBien : %s %s %s %s', showInfo.title, seasonIndex, episodeIndex, lang);
+	console.log('Search serie on Cpasbien : %s %s %s %s', showInfo.title, seasonIndex, episodeIndex, lang);
 	async.parallel(
 			[
 			 function(callback) {

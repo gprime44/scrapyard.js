@@ -23,7 +23,7 @@ function search(category, lang, query, callback) {
 		break;
 	case 'VOSTFR':
 		langCode = 2;
-		searchQuery = searchQuery + ' VOSTFR';
+		searchQuery = searchQuery + ' VOSTFR ';
 		break;
 	default:
 		langCode = 2;
@@ -33,7 +33,7 @@ function search(category, lang, query, callback) {
   var url = KICKASS_URL + '/json.php';
   var param = { q: 'category:' + category + ' lang_id:' + langCode + ' ' + query, field: 'seeders', order: 'desc' };
   
-  console.log('Search on kickass : ' + url + ' with : ' + param);
+  console.log('Search on kickass : %s with : %s', url, param);
   
   network.json(url, param, null, function(err, data) {
     if (err) {
@@ -70,7 +70,7 @@ function search(category, lang, query, callback) {
 // ----------------------------------------------------------------------------
 
 exports.movie = function(movieInfo, lang, callback) {
-	console.log('Search movie on Kickass : %s %s %s %s', movieInfo.title, lang);
+	console.log('Search movie on Kickass : %s %s', movieInfo.title, lang);
   search('movies', lang, 'imdb:' + ((movieInfo.imdb_id != null) ? movieInfo.imdb_id.substring(2) : ''), function(err, movieMagnets) {
     if (err) {
       callback(err, null);
