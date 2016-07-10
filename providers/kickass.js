@@ -10,7 +10,7 @@ var KICKASS_URL = 'https://kat.cr'
 
 // ----------------------------------------------------------------------------
 
-function search(category, lang, searchQuery, callback) {
+function search(category, lang, query, callback) {
   var magnets = [];
   
   var langCode 
