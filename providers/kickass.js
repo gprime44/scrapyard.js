@@ -10,9 +10,27 @@ var KICKASS_URL = 'https://kat.cr'
 
 // ----------------------------------------------------------------------------
 
-function search(category, query, callback) {
+function search(category, lang, searchQuery, callback) {
   var magnets = [];
-  network.json(KICKASS_URL + '/json.php', { q: 'category:' + category + ' ' + query, field: 'seeders', order: 'desc' }, null, function(err, data) {
+  
+  var langCode 
+  switch (lang) {
+	case 'FR':
+		langCode = 5;
+		break;
+	case 'VO':
+		langCode = 2;
+		break;
+	case 'VOSTFR':
+		langCode = 2;
+		searchQuery = searchQuery + ' VOSTFR';
+		break;
+	default:
+		langCode = 2;
+		break;
+	}
+  
+  network.json(KICKASS_URL + '/json.php', { q: 'category:' + category + ' lang_id:' + langCode + ' ' + query, field: 'seeders', order: 'desc' }, null, function(err, data) {
     if (err) {
       callback(null, magnets);
     } else {
@@ -47,7 +65,7 @@ function search(category, query, callback) {
 // ----------------------------------------------------------------------------
 
 exports.movie = function(movieInfo, lang, callback) {
-  search('movies', 'imdb:' + ((movieInfo.imdb_id != null) ? movieInfo.imdb_id.substring(2) : ''), function(err, movieMagnets) {
+  search('movies', lang, 'imdb:' + ((movieInfo.imdb_id != null) ? movieInfo.imdb_id.substring(2) : ''), function(err, movieMagnets) {
     if (err) {
       callback(err, null);
     } else {
@@ -61,9 +79,6 @@ exports.movie = function(movieInfo, lang, callback) {
 exports.episode = function(showInfo, seasonIndex, episodeIndex, lang, callback) {
   async.parallel(
     [
-      // function(callback) {
-      //   search('tv', util.format('%s season:%d episode:%d', showInfo.title, seasonIndex, episodeIndex), callback);
-      // },
       function(callback) {
         var season = seasonIndex.toString();
         if (seasonIndex < 10) {
@@ -73,7 +88,7 @@ exports.episode = function(showInfo, seasonIndex, episodeIndex, lang, callback) 
         if (episodeIndex < 10) {
           episode = '0' + episode;
         }
-        search('tv', util.format('%s S%sE%s', showInfo.title, season, episode), callback);
+        search('tv', lang, util.format('%s season:%s episode:%s', showInfo.title, season, episode), callback);
       }
     ],
     function(err, results) {

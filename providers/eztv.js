@@ -18,6 +18,7 @@ exports.episode = function(showInfo, seasonIndex, episodeIndex, lang, callback) 
     } else {
       if (data && 'episodes' in data) {
         for (var i = 0; i < data.episodes.length; i++) {
+        console.log(data.episodes[i]);
           if (data.episodes[i].season == seasonIndex && data.episodes[i].episode == episodeIndex) {
             for (var key in data.episodes[i].torrents) {
               var magnetLink       = data.episodes[i].torrents[key].url;
