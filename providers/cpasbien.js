@@ -47,11 +47,8 @@ function parse(item, callback) {
 	});
 }
 
-function search(query, type, lang, callback) {
+function search(query, type, lang, callback) {	
 	SearchCpasbien(query, type, lang).then((values) => {
-
-		console.log('Query : %s', query);
-
 		if (values === undefined || values.items.length == 0) {
 			callback(null, []);
 		}
@@ -66,6 +63,7 @@ function search(query, type, lang, callback) {
 // ----------------------------------------------------------------------------
 
 exports.movie = function(movieInfo, lang, callback) {
+	console.log('Search movie on CpasBien : %s %s', movieInfo.title, lang);
 	async.parallel(
 			[
 			 function(callback) {
@@ -91,6 +89,7 @@ exports.movie = function(movieInfo, lang, callback) {
 // ----------------------------------------------------------------------------
 
 exports.episode = function(showInfo, seasonIndex, episodeIndex, lang, callback) {
+	console.log('Search serie on CpasBien : %s %s %s %s', showInfo.title, seasonIndex, episodeIndex, lang);
 	async.parallel(
 			[
 			 function(callback) {
@@ -223,7 +222,7 @@ function SearchCpasbien (query, type, lang) {
 	
 	URL = URL + '/' + encodeURI(query.toLowerCase()) + '.html';
 		
-	console.log('Search on CpasBien : ' + URL)
+	console.log('Call : %s', URL)
 	
 	return _crawl(URL);
 }

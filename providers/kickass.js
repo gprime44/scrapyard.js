@@ -70,6 +70,7 @@ function search(category, lang, query, callback) {
 // ----------------------------------------------------------------------------
 
 exports.movie = function(movieInfo, lang, callback) {
+	console.log('Search movie on Kickass : %s %s %s %s', movieInfo.title, lang);
   search('movies', lang, 'imdb:' + ((movieInfo.imdb_id != null) ? movieInfo.imdb_id.substring(2) : ''), function(err, movieMagnets) {
     if (err) {
       callback(err, null);
@@ -82,18 +83,11 @@ exports.movie = function(movieInfo, lang, callback) {
 // ----------------------------------------------------------------------------
 
 exports.episode = function(showInfo, seasonIndex, episodeIndex, lang, callback) {
+	console.log('Search serie on Kickass : %s %s %s %s', showInfo.title, seasonIndex, episodeIndex, lang);
   async.parallel(
     [
       function(callback) {
-        var season = seasonIndex.toString();
-        if (seasonIndex < 10) {
-          season = '0' + season;
-        }
-        var episode = episodeIndex.toString();
-        if (episodeIndex < 10) {
-          episode = '0' + episode;
-        }
-        search('tv', lang, util.format(' %s season:%s episode:%s ', showInfo.title, season, episode), callback);
+        search('tv', lang, util.format(' %s season:%s episode:%s ', showInfo.title, seasonIndex, episodeIndex), callback);
       }
     ],
     function(err, results) {
