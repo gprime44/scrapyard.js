@@ -12,13 +12,17 @@ EZTV_URL = 'https://api-fetch.website/tv'
 
 exports.episode = function(showInfo, seasonIndex, episodeIndex, lang, callback) {
   var magnets = [];
-  network.json(EZTV_URL + '/show/' + showInfo.imdb_id, null, null, function(err, data) {
+  
+  var url = EZTV_URL + '/show/' + showInfo.imdb_id;
+  
+  console.log('Search on EZTV : ' + url);
+  
+  network.json(url, null, null, function(err, data) {
     if (err) {
       callback(null, magnets);
     } else {
       if (data && 'episodes' in data) {
         for (var i = 0; i < data.episodes.length; i++) {
-        console.log(data.episodes[i]);
           if (data.episodes[i].season == seasonIndex && data.episodes[i].episode == episodeIndex) {
             for (var key in data.episodes[i].torrents) {
               var magnetLink       = data.episodes[i].torrents[key].url;

@@ -66,7 +66,6 @@ function search(query, type, lang, callback) {
 // ----------------------------------------------------------------------------
 
 exports.movie = function(movieInfo, lang, callback) {
-
 	async.parallel(
 			[
 			 function(callback) {
@@ -95,7 +94,6 @@ exports.episode = function(showInfo, seasonIndex, episodeIndex, lang, callback) 
 	async.parallel(
 			[
 			 function(callback) {
-				 console.log('Search tv show episode on cpasbien');
 				 var season = seasonIndex.toString();
 				 if (seasonIndex < 10) {
 					 season = '0' + season;
@@ -187,7 +185,6 @@ function _createPagination (pagination) {
 // Type : MOVIES, TVSHOWS
 // Lang : FR, VO, VOSTFR
 function SearchCpasbien (query, type, lang) {
-	console.log('Query : %s - %s - %s', query, type, lang);
 	var URL = CPASBIEN_URL + '/recherche/';
 	
 	switch (type) {
@@ -226,7 +223,7 @@ function SearchCpasbien (query, type, lang) {
 	
 	URL = URL + '/' + encodeURI(query.toLowerCase()) + '.html';
 		
-	console.log(URL)
+	console.log('Search on CpasBien : ' + URL)
 	
 	return _crawl(URL);
 }

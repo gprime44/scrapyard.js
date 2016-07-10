@@ -30,7 +30,12 @@ function search(category, lang, searchQuery, callback) {
 		break;
 	}
   
-  network.json(KICKASS_URL + '/json.php', { q: 'category:' + category + ' lang_id:' + langCode + ' ' + query, field: 'seeders', order: 'desc' }, null, function(err, data) {
+  var url = KICKASS_URL + '/json.php';
+  var param = { q: 'category:' + category + ' lang_id:' + langCode + ' ' + query, field: 'seeders', order: 'desc' };
+  
+  console.log('Search on kickass : ' + url + ' with : ' + param);
+  
+  network.json(url, param, null, function(err, data) {
     if (err) {
       callback(null, magnets);
     } else {
@@ -88,7 +93,7 @@ exports.episode = function(showInfo, seasonIndex, episodeIndex, lang, callback) 
         if (episodeIndex < 10) {
           episode = '0' + episode;
         }
-        search('tv', lang, util.format('%s season:%s episode:%s', showInfo.title, season, episode), callback);
+        search('tv', lang, util.format(' %s season:%s episode:%s ', showInfo.title, season, episode), callback);
       }
     ],
     function(err, results) {
