@@ -87,7 +87,7 @@ exports.episode = function(showInfo, seasonIndex, episodeIndex, lang, callback) 
   async.parallel(
     [
       function(callback) {
-        search('tv', lang, util.format(' %s season:%s episode:%s ', showInfo.title, seasonIndex, episodeIndex), callback);
+        search('tv', lang, showInfo.title + ' season:' + seasonIndex +  ' episode:' + episodeIndex, callback);
       }
     ],
     function(err, results) {
