@@ -33,7 +33,7 @@ function search(category, lang, query, callback) {
   var url = KICKASS_URL + '/json.php';
   var param = { q: 'category:' + category + ' lang_id:' + langCode + ' ' + query, field: 'seeders', order: 'desc' };
   
-  console.log('Search on kickass : %s with : %s', url, param);
+  console.log('Search on kickass : %s with : %s', url, JSON.stringify(param));
   
   network.json(url, param, null, function(err, data) {
     if (err) {
