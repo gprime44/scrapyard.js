@@ -9,8 +9,10 @@ var cpasbien = require('./providers/cpasbien');
 
 exports.movie = function(movieInfo, lang, callback) {
 	async.parallel([ function(callback) {
-		if (!lang.equals('VO')) {
+		if (lang != 'VO') {
 			cpasbien.movie(movieInfo, lang, callback);
+		} else {
+			callback(null, null);
 		}
 
 	}, function(callback) {
@@ -44,9 +46,11 @@ exports.movie = function(movieInfo, lang, callback) {
 exports.episode = function(showInfo, seasonIndex, episodeIndex, lang, callback) {
 	async.parallel([
 			function(callback) {
-				if (!lang.equals('VO')) {
+				if (lang != 'VO') {
 					cpasbien.episode(showInfo, seasonIndex, episodeIndex, lang,
 							callback);
+				} else {
+					callback(null, null);
 				}
 
 			},
