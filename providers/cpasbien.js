@@ -192,9 +192,6 @@ function SearchCpasbien (query, type, lang) {
 		case 'FR':
 			URL = URL + 'films-french';
 			break;
-		case 'VO':
-			URL = URL + 'films';
-			break;
 		case 'VOSTFR':
 			URL = URL + 'films-vostfr';
 			break;
@@ -207,9 +204,6 @@ function SearchCpasbien (query, type, lang) {
 		switch (lang) {
 		case 'FR':
 			URL = URL + 'series-francaise';
-			break;
-		case 'VO':
-			URL = URL + 'series';
 			break;
 		case 'VOSTFR':
 			URL = URL + 'series-vostfr';
