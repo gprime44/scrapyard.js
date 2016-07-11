@@ -41,7 +41,7 @@ function search(category, lang, query, callback) {
 
 	network.json(url, param, null, function(err, data) {
 		if (err) {
-			callback(null, magnets);
+			callback(err, magnets);
 		} else {
 			for (var i = 0; i < data.list.length; i++) {
 				var magnetInfo = {

@@ -24,7 +24,7 @@ exports.episode = function(showInfo, seasonIndex, episodeIndex, lang, callback) 
 					null,
 					function(err, data) {
 						if (err) {
-							callback(null, magnets);
+							callback(err, magnets);
 						} else {
 							if (data && 'episodes' in data) {
 								for (var i = 0; i < data.episodes.length; i++) {
