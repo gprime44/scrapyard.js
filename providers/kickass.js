@@ -12,7 +12,7 @@ var KICKASS_URL = 'https://kat.cr'
 
 function search(category, lang, query, callback) {
   var magnets = [];
-  
+  console.log('Enter method ' + search);
   var langCode 
   switch (lang) {
 	case 'FR':
@@ -87,7 +87,9 @@ exports.episode = function(showInfo, seasonIndex, episodeIndex, lang, callback) 
   async.parallel(
     [
       function(callback) {
-        search('tv', lang, showInfo.title + ' season:' + seasonIndex +  ' episode:' + episodeIndex, callback);
+    	  var searchStr = showInfo.title + ' season:' + seasonIndex +  ' episode:' + episodeIndex;
+    	  console.log(searchStr);
+        search('tv', lang, searchStr, callback);
       }
     ],
     function(err, results) {
